@@ -1,3 +1,10 @@
+/*
+* Miguel Andres Izaguirre Valerio
+* Jorge Luis Vasquez Osorio
+*
+* Proyecto para Aplicaciones de Tecnologia: Rample
+*/
+
 package com.example.rample;
 
 import androidx.appcompat.app.AppCompatActivity;
