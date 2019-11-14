@@ -9,8 +9,12 @@
 package com.example.rample;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -70,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d("RAMPLE", "Se ha presionado el boton.");
 
         animateButton();
+
+        //Transicion a activity de resultados
+        Intent sharedIntent = new Intent(MainActivity.this, Results_1Activity.class);
+
+        Pair pair= new Pair<ImageButton, String>(rample_Button,"buttonTransition");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pair);
+
+        startActivity(sharedIntent, options.toBundle());
+
     }//didTapButton
 
     //Animar el boton de Rample
