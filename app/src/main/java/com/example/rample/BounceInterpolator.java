@@ -1,9 +1,11 @@
+package com.example.rample;
+
 public class BounceInterpolator {
     private double mAmplitude = 1;
     private double mFrequency = 10;
 
     /* Constructor
-    BounceInterpolator(double amplitude, double frequency) {
+    com.example.rample.BounceInterpolator(double amplitude, double frequency) {
         mAmplitude = amplitude;
         mFrequency = frequency;
     }*/

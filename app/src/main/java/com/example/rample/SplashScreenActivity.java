@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 public class SplashScreenActivity extends AppCompatActivity {
-    private static int SPLASH_SCREEN_TIME_OUT = 3000;//ms para splash screen
+    private static int SPLASH_SCREEN_TIME_OUT = 2000;//ms para splash screen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,10 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 Intent homeIntent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 startActivity(homeIntent);
+                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
                 finish();
             }
         },SPLASH_SCREEN_TIME_OUT);
-    }
+    }//onCreate
+
 }

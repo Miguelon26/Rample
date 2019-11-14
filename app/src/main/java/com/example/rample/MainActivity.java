@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // Do something in response to button click
         Log.d("RAMPLE", "Se ha presionado el boton.");
 
+        animateButton();
     }//didTapButton
 
     //Animar el boton de Rample
