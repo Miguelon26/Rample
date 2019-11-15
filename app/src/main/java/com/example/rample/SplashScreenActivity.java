@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 public class SplashScreenActivity extends AppCompatActivity {
-    private static int SPLASH_SCREEN_TIME_OUT = 2000;//ms para splash screen
+    private static int SPLASH_SCREEN_TIME_OUT = 1000;//ms para splash screen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
