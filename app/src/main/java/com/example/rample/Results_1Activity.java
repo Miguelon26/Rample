@@ -69,6 +69,8 @@ public class Results_1Activity extends AppCompatActivity {
         // Do something in response to button click
         Log.d("RAMPLE", "Se ha presionado el boton.");
 
+        enlaceRandom_TextView.setText("Cargando tu experiencia...");
+        generateRandom();
     }//didTapButton
 
 
@@ -141,6 +143,7 @@ public class Results_1Activity extends AppCompatActivity {
         );//requestQueue
 
         requestQueue.add(objectRequest);
+        requestQueue.getCache().clear();
     }//generateRandom
 
 
