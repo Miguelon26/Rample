@@ -20,6 +20,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     Animation button_Animation;
@@ -31,6 +35,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         rample_Button = (ImageButton) findViewById(R.id.imageButton);
+
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
+        TextView textViewDate = findViewById(R.id.textViewDate);
+        textViewDate.setText(currentDate);
+
+        //Se obtiene la fecha y hora actuales
+        Calendar rightNow = Calendar.getInstance();
+        int currentTime = rightNow.get(Calendar.HOUR_OF_DAY);
+
+        /*Dependiendo de la hora del día, sera mostrada una frase en la panatalla principal
+         *  */
+        TextView textViewHora = findViewById(R.id.textViewTime);
+        if ((currentTime < 5)) {
+            textViewHora.setText("Buenas noches");
+        } else {
+            if (currentTime < 12){
+                textViewHora.setText("Buenos días");
+            }else{
+                if (currentTime < 19){
+                    textViewHora.setText("Buenas tardes");
+                }
+                else {
+                    textViewHora.setText("Buenas noches");
+                }
+            }
+
+        }
 
     }//onCreate
 
