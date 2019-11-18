@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#31D0F0"
+    android:background="#51519A"
     tools:context=".MainActivity">
 
     <TextView
@@ -25,14 +25,14 @@
         android:id="@+id/imageButton"
         android:layout_width="256dp"
         android:layout_height="256dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:onClick="didTapButton"
         android:scaleType="fitStart"
+        android:transitionName="buttonTransition"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:transitionName="buttonTransition"
-        app:srcCompat="@drawable/shuffle_3" />
+        app:srcCompat="@drawable/shuffle_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

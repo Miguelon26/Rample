@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#31D0F0"
+    android:background="#51519A"
     tools:context=".Results_1Activity">
 
     <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="32dp"
+        android:id="@+id/rample_imageButton"
+        android:layout_width="246dp"
+        android:layout_height="256dp"
+        android:layout_marginTop="16dp"
         android:background="@null"
         android:onClick="didTapButton"
         android:scaleType="fitStart"
@@ -19,17 +19,75 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/shuffle_3" />
+        app:srcCompat="@drawable/shuffle_1" />
 
     <TextView
-        android:id="@+id/resultados"
+        android:id="@+id/loading_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-medium"
         android:text="ERROR 404: Upsi Dupsi."
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/rample_imageButton" />
+
+    <ImageView
+        android:id="@+id/poster_imageView"
+        android:layout_width="160dp"
+        android:layout_height="280dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="fitStart"
+        app:layout_constraintEnd_toStartOf="@+id/info_textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/info_textView"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <TextView
+        android:id="@+id/title_textView"
+        android:layout_width="339dp"
+        android:layout_height="56dp"
+        android:text="Título"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="@+id/info_textView"
+        app:layout_constraintStart_toStartOf="@+id/poster_imageView"
+        app:layout_constraintTop_toTopOf="@+id/loading_textView" />
+
+    <TextView
+        android:id="@+id/info_textView"
+        android:layout_width="213dp"
+        android:layout_height="330dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:autoText="false"
+        android:overScrollMode="ifContentScrolls"
+        android:text="Info"
+        android:textColor="#FFFFFF"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_textView" />
+
+    <TextView
+        android:id="@+id/trailer_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:autoLink="all"
+        android:text="Trailer"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_textView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
