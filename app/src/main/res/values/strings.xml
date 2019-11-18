@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Rample</string>
+    <string-array name="Categorías">
+        <item><FONT COLOR="#006600">Películas</FONT></item>
+        <item><FONT COLOR="#006600">Series</FONT></item>
+        <item><FONT COLOR="#006600">Anime</FONT></item>
+        <item><FONT COLOR="#006600">Restaurantes</FONT></item>
+    </string-array>
 </resources>

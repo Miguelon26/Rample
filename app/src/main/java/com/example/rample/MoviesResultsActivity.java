@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
-public class Results_1Activity extends AppCompatActivity {
+public class MoviesResultsActivity extends AppCompatActivity {
     ImageButton rample_imageButton;
     TextView loading_textView;
     ImageView poster_imageView;
@@ -33,13 +33,13 @@ public class Results_1Activity extends AppCompatActivity {
     boolean containsGenre = false, containsYear = false, containsRuntime = false, containsCertification = false, containsRating = false;
 
     Handler handler = new Handler();
-    int apiDelay = 100;//ms
+    int apiDelay = 1000;//ms
     Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results_1);
+        setContentView(R.layout.activity_movies_results);
 
         rample_imageButton = findViewById(R.id.rample_imageButton);
         loading_textView = findViewById(R.id.loading_textView);

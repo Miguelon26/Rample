@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#51519A"
-    tools:context=".Results_1Activity">
+    tools:context=".MoviesResultsActivity">
 
     <ImageButton
         android:id="@+id/rample_imageButton"
@@ -67,7 +67,6 @@
         android:layout_height="330dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:autoText="false"
         android:overScrollMode="ifContentScrolls"
         android:text="Info"
         android:textColor="#FFFFFF"
