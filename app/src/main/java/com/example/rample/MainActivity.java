@@ -22,6 +22,7 @@ import android.view.animation.BounceInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         rample_Button = (ImageButton) findViewById(R.id.imageButton);
+
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
+        TextView textViewDate = findViewById(R.id.textViewDate);
+        textViewDate.setText(currentDate);
 
         //Se obtiene la fecha y hora actuales
         Calendar rightNow = Calendar.getInstance();
