@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         Intent sharedIntent = new Intent();//Transicion a activity de resultados
 
         // Do something in response to button click
-        Log.d("RAMPLE", "Se ha presionado el boton.");
+        Log.d("REST", "Se ha presionado el boton.");
 
         animateButton();
 

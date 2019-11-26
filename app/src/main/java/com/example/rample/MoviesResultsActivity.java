@@ -2,13 +2,18 @@ package com.example.rample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -22,19 +27,19 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 public class MoviesResultsActivity extends AppCompatActivity {
+    Animation button_Animation;
     ImageButton rample_imageButton;
-    TextView loading_textView;
+    ProgressBar progressBar;
     ImageView poster_imageView;
     TextView title_textView;
     TextView info_textView;
     TextView trailer_textView;
 
     String tempId = "";
-    boolean containsGenre = false, containsYear = false, containsRuntime = false, containsCertification = false, containsRating = false;
+    boolean containsGenre = false, containsYear = false, containsRuntime = false, containsCertification = false, containsRating = false, trailerClick = false;
 
-    Handler handler = new Handler();
-    int apiDelay = 1000;//ms
-    Runnable runnable;
+    private Handler handler = new Handler();
+    int apiDelay = 2000;//ms
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,34 +47,48 @@ public class MoviesResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movies_results);
 
         rample_imageButton = findViewById(R.id.rample_imageButton);
-        loading_textView = findViewById(R.id.loading_textView);
+        progressBar = findViewById(R.id.progressBar);
         poster_imageView = findViewById(R.id.poster_imageView);
         title_textView = findViewById(R.id.title_textView);
         info_textView = findViewById(R.id.info_textView);
         trailer_textView = findViewById(R.id.trailer_textView);
 
-        handler.postDelayed(runnable = new Runnable() {
-            public void run() {
-                runRequest();
-                handler.postDelayed(runnable, apiDelay);
-            }
-        }, apiDelay);
+        //Mostrar y Ocultar
+        progressBar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+        progressBar.setVisibility(View.VISIBLE);
+
+        poster_imageView.setVisibility(View.GONE);
+        title_textView.setVisibility(View.GONE);
+        info_textView.setVisibility(View.GONE);
+        trailer_textView.setVisibility(View.GONE);
+
+        //API loop
+        //newRunnable.run();
 
     }//onCreate
 
     @Override
     protected void onStart() {
         super.onStart();
+        if (!trailerClick) {
+            //API loop
+            newRunnable.run();
+        } else {//si se regresa a la app despues de ver el trailer
+            trailerClick = false;
+        }
+
     }//onStart
 
     @Override
     protected void onResume() {
         super.onResume();
+
     }//onResume
 
     @Override
     protected void onPause() {
         super.onPause();
+        handler.removeCallbacks(newRunnable);
     }//onPause
 
     @Override
@@ -80,6 +99,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        handler.removeCallbacks(newRunnable);
     }//onDestroy
 
     @Override
@@ -91,18 +111,20 @@ public class MoviesResultsActivity extends AppCompatActivity {
     public void didTapButton(View view) {
         // Do something in response to button click
         Log.d("RAMPLE", "Se ha presionado el boton.");
+        animateButton();
 
-        loading_textView.setText("Cargando tu experiencia...");
+        //Mostrar y Ocultar
+        progressBar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+        progressBar.setVisibility(View.VISIBLE);
 
-        handler.postDelayed(runnable = new Runnable() {
-            public void run() {
-                runRequest();
-                handler.postDelayed(runnable, apiDelay);
-            }
-        }, apiDelay);
+        poster_imageView.setVisibility(View.GONE);
+        title_textView.setVisibility(View.GONE);
+        info_textView.setVisibility(View.GONE);
+        trailer_textView.setVisibility(View.GONE);
 
+        //API loop
+        handler.postDelayed(newRunnable, apiDelay);
 
-        //runRequest();
     }//didTapButton
 
     private void runRequest() {
@@ -125,8 +147,6 @@ public class MoviesResultsActivity extends AppCompatActivity {
                             int runtime = 0, rating = 0;
 
                             id = response.getString("_id");
-                            tempId = id;
-
                             if (response.has("title")) {
                                 title = response.getString("title");
                             }
@@ -170,33 +190,38 @@ public class MoviesResultsActivity extends AppCompatActivity {
                             String[] genre = genres.split(",");
 
                             /**********************************************************************/
+                            //1. Comparar IDs
+                            if (!tempId.equals(id)) {//si no se repite el resultado
+                                tempId = id;
 
-                            //Resultado con filtros
-                            /*for (int i = 0; i < 5; i++) {
-                                if (genre[i].contains("drama")) {
-                                    containsGenre = true;
-                                } else {//loop
-                                    loading_textView.setText("Ahi va...");
-                                    //runRequest();
-                                }
-                            }//for*/
+                                /*2. Revisar Filtros
+                                for (int i = 0; i < 5; i++) {
+                                    if (genre[i].contains("drama")) {
+                                        containsGenre = true;
+                                    }
+                                }//for*/
 
-                            //if (containsGenre == true) {
-                                //display
-                                loading_textView.setVisibility(View.GONE);
+                                //if (containsGenre) {
+                                    //3. Mostrar resultados
+                                    progressBar.setVisibility(View.GONE);
+                                    poster_imageView.setVisibility(View.VISIBLE);
+                                    title_textView.setVisibility(View.VISIBLE);
+                                    info_textView.setVisibility(View.VISIBLE);
+                                    trailer_textView.setVisibility(View.VISIBLE);
 
-                                poster = poster.substring(0, 4) + "s" + poster.substring(4);//subsrtr a https
-                                Picasso.get().load(poster).into(poster_imageView);
-                                title_textView.setText(Html.fromHtml("<br>" + title + "</b>"));
-                                info_textView.setText(Html.fromHtml("<b>Sinopsis: </b>" + synopsis + "\n<br><b>Año:</b> " + year + ".\n<br><b>Duración:</b> " + runtime + " minutos.\n" +
-                                        "<br><b>Géneros:</b> " + genre[0] + " " + genre[1] + " " + genre[2] + ".\n<br><b>Clasificación:</b> " + certification + "\n.<br><b>Rating:</b> " + rating + "/100."));
-                                trailer_textView.setText(Html.fromHtml("<b>Trailer:</b> " + trailer));
-
-                                handler.removeCallbacks(runnable);
-                                requestQueue.stop();
+                                    poster = poster.substring(0, 4) + "s" + poster.substring(4);//subsrtr a https
+                                    Picasso.get().load(poster).into(poster_imageView);
+                                    title_textView.setText(Html.fromHtml("<br>" + title + "</b>"));
+                                    info_textView.setText(Html.fromHtml("<b>Sinopsis: </b>" + synopsis + "\n<br><b>Año:</b> " + year + ".\n<br><b>Duración:</b> " + runtime + " minutos.\n" +
+                                            "<br><b>Géneros:</b> " + genre[0] + " " + genre[1] + " " + genre[2] + ".\n<br><b>Clasificación:</b> " + certification + "\n.<br><b>Rating:</b> " + rating + "/100."));
+                                    trailer_textView.setText(Html.fromHtml("<b>Trailer:</b> " + trailer));
 
 
-                            //}
+                                    //requestQueue.stop();
+                                    handler.removeCallbacks(newRunnable);
+                                //}//if containsGenre
+                            } else {//si es el mismo id
+                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -206,7 +231,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("RESPONSE", error.toString());
+                        Log.e("REST", error.toString());
                     }
                 }
         );//requestQueue
@@ -214,8 +239,30 @@ public class MoviesResultsActivity extends AppCompatActivity {
         requestQueue.add(objectRequest);
         requestQueue.getCache().clear();
 
+
     }//runRequest
 
+    private Runnable newRunnable = new Runnable() {
+        @Override
+        public void run() {
+            runRequest();
+            handler.postDelayed(newRunnable, apiDelay);
+        }
+    };
+
+
+    public void onClick(View v) {
+        trailerClick = true;
+    }
+
+    private void animateButton() {
+        //Animar el boton de Rample
+        button_Animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce);
+        android.view.animation.BounceInterpolator interpolator = new BounceInterpolator();
+        button_Animation.setInterpolator(interpolator);
+
+        rample_imageButton.startAnimation(button_Animation);
+    }//animateButton
 
 }
 
