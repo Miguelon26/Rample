@@ -1,29 +1,30 @@
 /*
-* Miguel Andres Izaguirre Valerio
-* Jorge Luis Vasquez Osorio
-*
-* Proyecto para Aplicaciones de Tecnologia: Rample
-* MainActivity.java
-*/
+ * Miguel Andres Izaguirre Valerio
+ * Jorge Luis Vasquez Osorio
+ *
+ * Proyecto para Aplicaciones de Tecnologia: Rample
+ * MainActivity.java
+ */
 
 package com.example.rample;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.android.volley.toolbox.StringRequest;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -34,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
     TextView fecha_textView;
     ImageButton rample_imageButton;
     Spinner categoria_spinner;
+    Spinner filtro1_spinner;
+    Spinner filtro2_spinner;
+    Spinner filtro3_spinner;
+    Spinner filtro4_spinner;
+    Spinner filtro5_spinner;
+    Spinner filtro6_spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +51,94 @@ public class MainActivity extends AppCompatActivity {
         fecha_textView = (TextView) findViewById(R.id.fecha_textView);
         rample_imageButton = (ImageButton) findViewById(R.id.rample_imageButton);
         categoria_spinner = (Spinner) findViewById(R.id.categoria_spinner);
+        filtro1_spinner = (Spinner) findViewById(R.id.filtro1_spinner);
+        filtro2_spinner = (Spinner) findViewById(R.id.filtro2_spinner);
+        filtro3_spinner = (Spinner) findViewById(R.id.filtro3_spinner);
+        filtro4_spinner = (Spinner) findViewById(R.id.filtro4_spinner);
+        filtro5_spinner = (Spinner) findViewById(R.id.filtro5_spinner);
+        filtro6_spinner = (Spinner) findViewById(R.id.filtro6_spinner);
 
-        String[] categorias = new String[]{"Películas", "Series", "Anime","Restaurantes"};
-        //String[] filtroGeneros;
+        filtro1_spinner.setVisibility(View.GONE);
+        filtro2_spinner.setVisibility(View.GONE);
+        filtro3_spinner.setVisibility(View.GONE);
+        filtro4_spinner.setVisibility(View.GONE);
+        filtro5_spinner.setVisibility(View.GONE);
+        filtro6_spinner.setVisibility(View.GONE);
+
+        String[] categorias = new String[]{"Películas", "Series", "Restaurantes"};
+        //Filtros Peliculas
+        final String[] filtroGeneros = new String[]{"Género", "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Music", "Mystery", "Romance", "Science Fiction", "TV Movie", "Thriller", "War", "Western"};
+        final String[] filtroAdultos = new String[]{"Para Adultos", "Sí", "No"};
+        final String[] filtroAnio = new String[]{"Año", ">2010", "2000-2009", "1990-1999", "1980-1989", "<1980"};
+        final String[] filtroRuntime = new String[]{"Duración", ">120 minutos", "90-120 minutos", "<90 minutos"};
+        final String[] filtroRating = new String[]{"Rating", ">9.0", "8.0-8.9", "7.0-7.9", "6.0-6.9", "<6.0"};
 
         //Agregar Dropdown lists
-        ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<>(MainActivity.this,R.layout.support_simple_spinner_dropdown_item,categorias);
+        ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, categorias);
         categoria_spinner.setAdapter(categoriasAdapter);
+        categoria_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //Determinar filtros a mostrar por categoria
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String categoriaElegida = categoria_spinner.getSelectedItem().toString();
+                switch (categoriaElegida) {
+                    case "Películas":
+                        ArrayAdapter<String> filtro1Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroGeneros);
+                        filtro1_spinner.setAdapter(filtro1Adapter);
+                        filtro1_spinner.setVisibility(View.VISIBLE);
+
+                        ArrayAdapter<String> filtro2Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroAnio);
+                        filtro2_spinner.setAdapter(filtro2Adapter);
+                        filtro2_spinner.setVisibility(View.VISIBLE);
+
+                        ArrayAdapter<String> filtro3Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroRuntime);
+                        filtro3_spinner.setAdapter(filtro3Adapter);
+                        filtro3_spinner.setVisibility(View.VISIBLE);
+
+                        ArrayAdapter<String> filtro4Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroRating);
+                        filtro4_spinner.setAdapter(filtro4Adapter);
+                        filtro4_spinner.setVisibility(View.VISIBLE);
+
+                        ArrayAdapter<String> filtro5Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroAdultos);
+                        filtro5_spinner.setAdapter(filtro5Adapter);
+                        filtro5_spinner.setVisibility(View.VISIBLE);
+
+                        filtro6_spinner.setVisibility(View.GONE);
+                        break;
+                    case "Series":
+                        filtro1_spinner.setVisibility(View.GONE);
+                        filtro2_spinner.setVisibility(View.GONE);
+                        filtro3_spinner.setVisibility(View.GONE);
+                        filtro4_spinner.setVisibility(View.GONE);
+                        filtro5_spinner.setVisibility(View.GONE);
+                        filtro6_spinner.setVisibility(View.GONE);
+                        break;
+                    case "Restaurantes":
+                        ault:
+                        filtro1_spinner.setVisibility(View.GONE);
+                        filtro2_spinner.setVisibility(View.GONE);
+                        filtro3_spinner.setVisibility(View.GONE);
+                        filtro4_spinner.setVisibility(View.GONE);
+                        filtro5_spinner.setVisibility(View.GONE);
+                        filtro6_spinner.setVisibility(View.GONE);
+                        break;
+                    default:
+                        break;
+                }//switch
+                /*if (categoria_spinner.getSelectedItem().toString().equals("Películas")) {
+                    ArrayAdapter<String> filtro1Adapter = new ArrayAdapter<>(MainActivity.this,R.layout.support_simple_spinner_dropdown_item,filtroGeneros);
+                    filtro1_spinner.setAdapter(filtro1Adapter);
+                    filtro1_spinner.setVisibility(View.VISIBLE);
+                }*/
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //Another interface callback
+            }
+        });
+
 
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
@@ -64,10 +152,10 @@ public class MainActivity extends AppCompatActivity {
         if ((currentTime < 5)) {
             bienvenido_textView.setText("Buenas noches");
         } else {
-            if (currentTime < 12){
+            if (currentTime < 12) {
                 bienvenido_textView.setText("Buenos días");
             } else {
-                if (currentTime < 19){
+                if (currentTime < 19) {
                     bienvenido_textView.setText("Buenas tardes");
                 } else {
                     bienvenido_textView.setText("Buenas noches");
@@ -122,12 +210,25 @@ public class MainActivity extends AppCompatActivity {
 
         //Validar a que activity ir
         String categoriaElegida = categoria_spinner.getSelectedItem().toString();
-        Log.i("REST", "Categoria Elegida: "+categoriaElegida);
+        Log.i("REST", "Categoria Elegida: " + categoriaElegida);
 
         switch (categoriaElegida) {
             case "Películas":
+                String filtro1 = filtro1_spinner.getSelectedItem().toString();
+                String filtro2 = filtro2_spinner.getSelectedItem().toString();
+                String filtro3 = filtro3_spinner.getSelectedItem().toString();
+                String filtro4 = filtro4_spinner.getSelectedItem().toString();
+                String filtro5= filtro5_spinner.getSelectedItem().toString();
+                String filtro6="";
+
                 sharedIntent = new Intent(MainActivity.this, MoviesResultsActivity.class);
+                sharedIntent.putExtra("filtroGenero",filtro1);
+                sharedIntent.putExtra("filtroAnio",filtro2);
+                sharedIntent.putExtra("filtroDuracion",filtro3);
+                sharedIntent.putExtra("filtroRating",filtro4);
+                sharedIntent.putExtra("filtroParaAdultos",filtro5);
                 break;
+            //Series
             case "Restaurantes":
                 sharedIntent = new Intent(MainActivity.this, RestaurantsResultsActivity.class);
                 break;
@@ -136,11 +237,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }//switch
 
-        Pair pair= new Pair<ImageButton, String>(rample_imageButton,"buttonTransition");
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pair);
+        Pair pair = new Pair<ImageButton, String>(rample_imageButton, "buttonTransition");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair);
         startActivity(sharedIntent, options.toBundle());
 
     }//didTapButton
+
 
     private void animateButton() {
         //Animar el boton de Rample

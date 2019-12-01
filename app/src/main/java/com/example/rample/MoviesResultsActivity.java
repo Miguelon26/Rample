@@ -1,3 +1,10 @@
+/*
+ * Miguel Andres Izaguirre Valerio
+ *
+ * Proyecto para Aplicaciones de Tecnologia: Rample
+ * MoviesResultsActivity.java
+ */
+
 package com.example.rample;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +22,7 @@ import android.view.animation.BounceInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -41,10 +49,11 @@ public class MoviesResultsActivity extends AppCompatActivity {
     TextView info_textView;
     TextView homepage_textView;
 
-    int tempId = 0;
-
+    Bundle bundle;
     private Handler handler = new Handler();
     int apiDelay = 1000;//ms
+
+    int tempId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +78,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
         homepage_textView.setVisibility(View.GONE);
 
         //API loop
-        //newRunnable.run();
+        newRunnable.run();
 
     }//onCreate
 
@@ -77,7 +86,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
             //API loop
-            newRunnable.run();
+            //newRunnable.run();
     }//onStart
 
     @Override
@@ -134,8 +143,15 @@ public class MoviesResultsActivity extends AppCompatActivity {
         //Log.i("REST","Random: "+randomId);
         String movieURL = "https://api.themoviedb.org/3/movie/"+randomId+"?api_key=49e5c6a63c90a4e26771ad63fc77043c&language=en-US";
 
-        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        bundle = getIntent().getExtras();//obtener filtros
+        final String filtroGenero = bundle.getString("filtroGenero");
+        final String filtroAnio = bundle.getString("filtroAnio");
+        final String filtroDuracion = bundle.getString("filtroDuracion");
+        final String filtroRating = bundle.getString("filtroRating");
+        final String filtroParaAdultos = bundle.getString("filtroParaAdultos");
+        //Log.i("REST","Filtros: "+filtroGenero+" "+filtroAnio+" "+filtroDuracion+" "+filtroRating+" "+filtroParaAdultos);
 
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 movieURL,//URL
@@ -147,8 +163,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
 
                         try {
                             //Variables a extraer del API
-                            String homepage="", imdbId="", originalLanguage="", originalTitle= "", overview="", posterPath="",
-                                    releaseDate="", status="", tagline="";
+                            String homepage="", imdbId="", originalLanguage="", originalTitle= "", overview="", posterPath="", releaseDate="", status="", tagline="";
                             ArrayList<String> genres = new ArrayList<String>();
                             ArrayList<String> productionCompanies = new ArrayList<String>();
                             ArrayList<String> spokenLanguages = new ArrayList<String>();
@@ -159,7 +174,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
                             //Proceso de extraer info del API
                             if (response.has("id")) {
                                 id = response.getInt("id");
-                                Log.i("REST",String.valueOf(id));
+                                //Log.i("REST",String.valueOf(id));
                             }
 
                             if (response.has("adult")) {
@@ -248,22 +263,95 @@ public class MoviesResultsActivity extends AppCompatActivity {
                             if (tempId!=id) {//si no se repite el resultado
                                 tempId = id;
 
-                                /*2. Revisar Filtros
-                                for (int i = 0; i < 5; i++) {
-                                    if (genre[i].contains("drama")) {
-                                        containsGenre = true;
-                                    }
-                                }//for*/
+                                //2. Revisar Filtros
+                                String tempGenero="";
+                                if (filtroGenero.equals("Género")) {//cualquier genero
+                                    tempGenero=genres.get(0);
+                                } else { tempGenero=filtroGenero;}//genero correcto
 
-                                //if (containsGenre) {
-                                    //3. Mostrar resultados
+                                int tempAnioMin=1950, tempAnioMax=2020;
+                                switch (filtroAnio) {
+                                    case ">2010":
+                                        tempAnioMin=2010;
+                                        break;
+                                    case "2000-2009":
+                                        tempAnioMin=2000;
+                                        tempAnioMax=2009;
+                                        break;
+                                    case "1990-1999":
+                                        tempAnioMin=1990;
+                                        tempAnioMax=1999;
+                                        break;
+                                    case "1980-1989":
+                                        tempAnioMin=1980;
+                                        tempAnioMax=1989;
+                                        break;
+                                    case "<1980":
+                                        tempAnioMax=1979;
+                                        break;
+                                    default:
+                                        break;
+                                }//switch Año
+
+                                int tempDuracionMin=15, tempDuracionMax=300;
+                                switch (filtroDuracion) {
+                                    case ">120 minutos":
+                                        tempDuracionMin=120;
+                                        break;
+                                    case "90-120 minutos":
+                                        tempDuracionMin=90;
+                                        tempDuracionMax=120;
+                                        break;
+                                    case "<90 minutos":
+                                        tempDuracionMax=89;
+                                        break;
+                                    default:
+                                        break;
+                                }//switch Duracion
+
+                                double tempRatingMin=0.0, tempRatingMax=10.0;
+                                switch (filtroRating) {
+                                    case ">9.0":
+                                        tempRatingMin=9.0;
+                                        break;
+                                    case "8.0-8.9":
+                                        tempRatingMin=8.0;
+                                        tempRatingMax=8.9;
+                                        break;
+                                    case "7.0-7.9":
+                                        tempRatingMin=7.0;
+                                        tempRatingMax=7.9;
+                                        break;
+                                    case "6.0-6.9":
+                                        tempRatingMin=6.0;
+                                        tempRatingMax=6.9;
+                                        break;
+                                    case "<6.0":
+                                        tempRatingMax=5.9;
+                                        break;
+                                    default:
+                                        break;
+                                }//switch Duracion
+
+                                boolean tempParaAdultos=false;
+                                if (filtroParaAdultos.equals("Sí")) {//pelis adultos
+                                    tempParaAdultos=true;
+                                }
+
+
+
+
+                                //3. Mostrar resultados
+                                if (genres.contains(tempGenero) && ((year>=tempAnioMin)&&(year<=tempAnioMax))
+                                && ((runtime>=tempDuracionMin)&&(runtime<=tempDuracionMax)) &&
+                                        ((voteAverage>=tempRatingMin)&&(voteAverage<=tempRatingMax)) &&
+                                adult==tempParaAdultos) {
                                     progressBar.setVisibility(View.GONE);
                                     poster_imageView.setVisibility(View.VISIBLE);
                                     title_textView.setVisibility(View.VISIBLE);
                                     info_textView.setVisibility(View.VISIBLE);
                                     homepage_textView.setVisibility(View.VISIBLE);
 
-                                    //posterPath = posterPath.substring(0, 4) + "s" + posterPath.substring(4);//subsrtr a https
                                     Picasso.get().load(posterPath).into(poster_imageView);
                                     title_textView.setText(Html.fromHtml("<b>" + originalTitle + "</b><br><i><center>"+tagline+"</center></i>"));
                                     info_textView.setText(Html.fromHtml("<br><b>Sinopsis: </b>" + overview + "\n<br><b>Año:</b> " + year + ".\n<br><b>Duración:</b> " + runtime + " minutos.\n" +
@@ -274,7 +362,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
 
                                     //requestQueue.stop();
                                     handler.removeCallbacks(newRunnable);
-                                //}//if containsGenre
+                                }//if genres
                             } else {//si es el mismo id
                             }
 

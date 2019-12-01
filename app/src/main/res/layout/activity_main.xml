@@ -7,6 +7,87 @@
     android:background="#51519A"
     tools:context=".MainActivity">
 
+    <Spinner
+        android:id="@+id/filtro6_spinner"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:background="@drawable/dropdown"
+        android:popupBackground="#CFD2FC"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:theme="@style/SpinnerStyle"
+        app:layout_constraintEnd_toEndOf="@+id/filtro4_spinner"
+        app:layout_constraintTop_toTopOf="@+id/filtro5_spinner"
+        tools:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/filtro5_spinner"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/dropdown"
+        android:popupBackground="#CFD2FC"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:theme="@style/SpinnerStyle"
+        app:layout_constraintStart_toStartOf="@+id/filtro3_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/filtro3_spinner"
+        tools:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/filtro1_spinner"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/dropdown"
+        android:popupBackground="#CFD2FC"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:theme="@style/SpinnerStyle"
+        app:layout_constraintStart_toStartOf="@+id/categoria_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/categoria_spinner"
+        tools:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/filtro2_spinner"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:background="@drawable/dropdown"
+        android:popupBackground="#CFD2FC"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:theme="@style/SpinnerStyle"
+        app:layout_constraintEnd_toEndOf="@+id/categoria_spinner"
+        app:layout_constraintTop_toTopOf="@+id/filtro1_spinner"
+        tools:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/filtro3_spinner"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/dropdown"
+        android:popupBackground="#CFD2FC"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:theme="@style/SpinnerStyle"
+        app:layout_constraintStart_toStartOf="@+id/filtro1_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/filtro1_spinner"
+        tools:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/filtro4_spinner"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:background="@drawable/dropdown"
+        android:popupBackground="#CFD2FC"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:theme="@style/SpinnerStyle"
+        app:layout_constraintEnd_toEndOf="@+id/filtro2_spinner"
+        app:layout_constraintTop_toTopOf="@+id/filtro3_spinner"
+        tools:visibility="visible" />
+
     <TextView
         android:id="@+id/bienvenido_textView"
         android:layout_width="wrap_content"
