@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -24,7 +25,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class MoviesResultsActivity extends AppCompatActivity {
     Animation button_Animation;
@@ -33,13 +39,12 @@ public class MoviesResultsActivity extends AppCompatActivity {
     ImageView poster_imageView;
     TextView title_textView;
     TextView info_textView;
-    TextView trailer_textView;
+    TextView homepage_textView;
 
-    String tempId = "";
-    boolean containsGenre = false, containsYear = false, containsRuntime = false, containsCertification = false, containsRating = false, trailerClick = false;
+    int tempId = 0;
 
     private Handler handler = new Handler();
-    int apiDelay = 2000;//ms
+    int apiDelay = 1000;//ms
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +56,8 @@ public class MoviesResultsActivity extends AppCompatActivity {
         poster_imageView = findViewById(R.id.poster_imageView);
         title_textView = findViewById(R.id.title_textView);
         info_textView = findViewById(R.id.info_textView);
-        trailer_textView = findViewById(R.id.trailer_textView);
+        info_textView.setMovementMethod(new ScrollingMovementMethod());
+        homepage_textView = findViewById(R.id.homepage_textView);
 
         //Mostrar y Ocultar
         progressBar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
@@ -60,7 +66,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
         poster_imageView.setVisibility(View.GONE);
         title_textView.setVisibility(View.GONE);
         info_textView.setVisibility(View.GONE);
-        trailer_textView.setVisibility(View.GONE);
+        homepage_textView.setVisibility(View.GONE);
 
         //API loop
         //newRunnable.run();
@@ -70,13 +76,8 @@ public class MoviesResultsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (!trailerClick) {
             //API loop
             newRunnable.run();
-        } else {//si se regresa a la app despues de ver el trailer
-            trailerClick = false;
-        }
-
     }//onStart
 
     @Override
@@ -120,7 +121,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
         poster_imageView.setVisibility(View.GONE);
         title_textView.setVisibility(View.GONE);
         info_textView.setVisibility(View.GONE);
-        trailer_textView.setVisibility(View.GONE);
+        homepage_textView.setVisibility(View.GONE);
 
         //API loop
         handler.postDelayed(newRunnable, apiDelay);
@@ -128,7 +129,10 @@ public class MoviesResultsActivity extends AppCompatActivity {
     }//didTapButton
 
     private void runRequest() {
-        String movieURL = "https://tv-v2.api-fetch.website/random/movie";
+        final int random = new Random().nextInt(600000);//id aleatorio
+        String randomId = String.valueOf(random);
+        //Log.i("REST","Random: "+randomId);
+        String movieURL = "https://api.themoviedb.org/3/movie/"+randomId+"?api_key=49e5c6a63c90a4e26771ad63fc77043c&language=en-US";
 
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -142,56 +146,106 @@ public class MoviesResultsActivity extends AppCompatActivity {
                         Log.i("REST", response.toString());
 
                         try {
-                            String id = "", title = "", year = "", synopsis = "", trailer = "", certification = "",
-                                    genres = "", poster = "";
-                            int runtime = 0, rating = 0;
+                            //Variables a extraer del API
+                            String homepage="", imdbId="", originalLanguage="", originalTitle= "", overview="", posterPath="",
+                                    releaseDate="", status="", tagline="";
+                            ArrayList<String> genres = new ArrayList<String>();
+                            ArrayList<String> productionCompanies = new ArrayList<String>();
+                            ArrayList<String> spokenLanguages = new ArrayList<String>();
+                            int year=0, runtime = 0, id=0;
+                            double voteAverage=0.0;
+                            boolean adult=false;
 
-                            id = response.getString("_id");
-                            if (response.has("title")) {
-                                title = response.getString("title");
+                            //Proceso de extraer info del API
+                            if (response.has("id")) {
+                                id = response.getInt("id");
+                                Log.i("REST",String.valueOf(id));
                             }
-                            if (response.has("year")) {
-                                year = response.getString("year");
+
+                            if (response.has("adult")) {
+                                adult = response.getBoolean("adult");
                             }
-                            if (response.has("synopsis")) {
-                                synopsis = response.getString("synopsis");
+
+                            if (response.has("genres")) {
+                                JSONArray genresJSONArray = response.getJSONArray("genres");
+                                for (int i=0; i<genresJSONArray.length(); i++) {
+                                    JSONObject genresJSONObject = genresJSONArray.getJSONObject(i);
+                                    String genre=genresJSONObject.getString("name");
+                                    //Log.i("REST","Genero: "+genre);
+                                    genres.add(genre);
+                                }
+                                //Log.i("REST","Géneros: "+genres);
                             }
+
+                            if (response.has("homepage")) {
+                                homepage = response.getString("homepage");
+                            }
+
+                            if (response.has("imdb_id")) {
+                                imdbId = response.getString("imdb_id");
+                            }
+
+                            if (response.has("original_language")) {
+                                originalLanguage = response.getString("original_language");
+                            }
+
+                            if (response.has("original_title")) {
+                                originalTitle = response.getString("original_title");
+                            }
+
+                            if (response.has("overview")) {
+                                overview = response.getString("overview");
+                            }
+
+                            if (response.has("poster_path")) {
+                                posterPath = response.getString("poster_path");
+                                posterPath="https://image.tmdb.org/t/p/w500"+posterPath;
+                            }
+
+                            if (response.has("production_companies")) {
+                                JSONArray productionCompaniesJSONArray = response.getJSONArray("production_companies");
+                                for (int i=0; i<productionCompaniesJSONArray.length(); i++) {
+                                    JSONObject productionCompaniesJSONObject = productionCompaniesJSONArray.getJSONObject(i);
+                                    String productionCompany=productionCompaniesJSONObject.getString("name");
+                                    productionCompanies.add(productionCompany);
+                                }
+                            }
+
+                            if (response.has("release_date")) {
+                                releaseDate = response.getString("release_date");
+
+                                year = Integer.valueOf(releaseDate.substring(0,4));
+                            }
+
                             if (response.has("runtime")) {
                                 runtime = response.getInt("runtime");
                             }
-                            if (response.has("trailer")) {
-                                trailer = response.getString("trailer");
-                            }
-                            if (response.has("certification")) {
-                                certification = response.getString("certification");
-                            }
-                            if (response.has("genres")) {
-                                genres = response.getString("genres");
-                            }
-                            if (response.has("images")) {
-                                JSONObject images = response.getJSONObject("images");
-                                if (images.has("poster")) {
-                                    poster = images.getString("poster");
-                                } else {
-                                    poster = "NA";
-                                }
-                            }
-                            if (response.has("rating")) {
-                                JSONObject percentage = response.getJSONObject("rating");
-                                if (percentage.has("percentage")) {
-                                    rating = percentage.getInt("percentage");
-                                } else {
-                                    rating = 0;
+
+                            if (response.has("spoken_languages")) {
+                                JSONArray spokenLanguagesJSONArray = response.getJSONArray("spoken_languages");
+                                for (int i=0; i<spokenLanguagesJSONArray.length(); i++) {
+                                    JSONObject spokenLanguagesJSONObject = spokenLanguagesJSONArray.getJSONObject(i);
+                                    String spokenLanguage=spokenLanguagesJSONObject.getString("name");
+                                    spokenLanguages.add(spokenLanguage);
                                 }
                             }
 
-                            //Obtener hasta 5 generos
-                            genres = genres.replaceAll("[\"\\[\\]]", "");
-                            String[] genre = genres.split(",");
+
+                            if (response.has("status")) {
+                                status = response.getString("status");
+                            }
+
+                            if (response.has("tagline")) {
+                                tagline = response.getString("tagline");
+                            }
+
+                            if (response.has("vote_average")) {
+                                voteAverage = response.getDouble("vote_average");
+                            }
 
                             /**********************************************************************/
                             //1. Comparar IDs
-                            if (!tempId.equals(id)) {//si no se repite el resultado
+                            if (tempId!=id) {//si no se repite el resultado
                                 tempId = id;
 
                                 /*2. Revisar Filtros
@@ -207,14 +261,15 @@ public class MoviesResultsActivity extends AppCompatActivity {
                                     poster_imageView.setVisibility(View.VISIBLE);
                                     title_textView.setVisibility(View.VISIBLE);
                                     info_textView.setVisibility(View.VISIBLE);
-                                    trailer_textView.setVisibility(View.VISIBLE);
+                                    homepage_textView.setVisibility(View.VISIBLE);
 
-                                    poster = poster.substring(0, 4) + "s" + poster.substring(4);//subsrtr a https
-                                    Picasso.get().load(poster).into(poster_imageView);
-                                    title_textView.setText(Html.fromHtml("<br>" + title + "</b>"));
-                                    info_textView.setText(Html.fromHtml("<b>Sinopsis: </b>" + synopsis + "\n<br><b>Año:</b> " + year + ".\n<br><b>Duración:</b> " + runtime + " minutos.\n" +
-                                            "<br><b>Géneros:</b> " + genre[0] + " " + genre[1] + " " + genre[2] + ".\n<br><b>Clasificación:</b> " + certification + "\n.<br><b>Rating:</b> " + rating + "/100."));
-                                    trailer_textView.setText(Html.fromHtml("<b>Trailer:</b> " + trailer));
+                                    //posterPath = posterPath.substring(0, 4) + "s" + posterPath.substring(4);//subsrtr a https
+                                    Picasso.get().load(posterPath).into(poster_imageView);
+                                    title_textView.setText(Html.fromHtml("<b>" + originalTitle + "</b><br><i><center>"+tagline+"</center></i>"));
+                                    info_textView.setText(Html.fromHtml("<br><b>Sinopsis: </b>" + overview + "\n<br><b>Año:</b> " + year + ".\n<br><b>Duración:</b> " + runtime + " minutos.\n" +
+                                            "<br><b>Géneros:</b> " + genres + ".\n<br><b>Rating:</b> " + voteAverage + "/100.\n<br><b>Compañías:</b> "+ productionCompanies +
+                                            ".\n<br><b>Status: </b>"+status+"."));
+                                    homepage_textView.setText(Html.fromHtml("<b>Sitio web:</b> " + homepage));
 
 
                                     //requestQueue.stop();
@@ -249,11 +304,6 @@ public class MoviesResultsActivity extends AppCompatActivity {
             handler.postDelayed(newRunnable, apiDelay);
         }
     };
-
-
-    public void onClick(View v) {
-        trailerClick = true;
-    }
 
     private void animateButton() {
         //Animar el boton de Rample
