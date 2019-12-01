@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
         final String[] filtroEpisodios = new String[]{"Episodios","<30 minutos","30-60 minutos",">60 minutos"};
         final String[] filtroTemporadas = new String[]{"Temporadas","1-3","4-6","6-9",">10"};
 
+        final String[] filtroTipoCOmida = new String[]{"Tipo", "China", "Italiana", "Hamburguesas", "Pizza", };
+        final String[] filtroDistancia = new String[]{"Distancia", "1 km", "3 km", "5 km", "10 km", "20 km", "50 km"};
+        final String[] filtroFoodRating = new String[]{"Rating", "1 estrella", "2 estrellas", "3 estrellas", "4 estrellas", "5 estrellas"};
+        final String[] filtroPrecio = new String[]{"Nivel de precio", "1", "2", "3", "4", "5"};
+
         //Agregar Dropdown lists
         ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, categorias);
         categoria_spinner.setAdapter(categoriasAdapter);
@@ -133,11 +138,24 @@ public class MainActivity extends AppCompatActivity {
                         filtro6_spinner.setVisibility(View.GONE);
                         break;
                     case "Restaurantes":
-                        filtro1_spinner.setVisibility(View.GONE);
-                        filtro2_spinner.setVisibility(View.GONE);
-                        filtro3_spinner.setVisibility(View.GONE);
-                        filtro4_spinner.setVisibility(View.GONE);
+                        ArrayAdapter<String> filtro1FoodAdapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroTipoCOmida);
+                        filtro1_spinner.setAdapter(filtro1FoodAdapter);
+                        filtro1_spinner.setVisibility(View.VISIBLE);
+
+                        ArrayAdapter<String> filtro2FoodAdapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroDistancia);
+                        filtro2_spinner.setAdapter(filtro2FoodAdapter);
+                        filtro2_spinner.setVisibility(View.VISIBLE);
+
+                        ArrayAdapter<String> filtro3FoodAdapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroFoodRating);
+                        filtro3_spinner.setAdapter(filtro3FoodAdapter);
+                        filtro3_spinner.setVisibility(View.VISIBLE);
+
+                        ArrayAdapter<String> filtro4FoodAdapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroPrecio);
+                        filtro4_spinner.setAdapter(filtro4FoodAdapter);
+                        filtro4_spinner.setVisibility(View.VISIBLE);
+
                         filtro5_spinner.setVisibility(View.GONE);
+
                         filtro6_spinner.setVisibility(View.GONE);
                         break;
                     default:
@@ -262,7 +280,19 @@ public class MainActivity extends AppCompatActivity {
                 sharedIntent.putExtra("filtroRating",filtro5);
                 break;
             case "Restaurantes":
+
+                filtro1 = filtro1_spinner.getSelectedItem().toString();
+                filtro2 = filtro2_spinner.getSelectedItem().toString();
+                filtro3 = filtro3_spinner.getSelectedItem().toString();
+                filtro4 = filtro4_spinner.getSelectedItem().toString();
+                filtro5= "";
+                filtro6="";
+
                 sharedIntent = new Intent(MainActivity.this, RestaurantsResultsActivity.class);
+                sharedIntent.putExtra("filtroTipoComida",filtro1);
+                sharedIntent.putExtra("filtroDistancia",filtro2);
+                sharedIntent.putExtra("filtroFoodRating",filtro3);
+                sharedIntent.putExtra("filtroPrecio",filtro4);
                 break;
             default:
 

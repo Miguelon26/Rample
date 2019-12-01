@@ -20,4 +20,69 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/shuffle_1" />
+
+    <TextView
+        android:id="@+id/restaurantPrice"
+        android:layout_width="297dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="24dp"
+        android:text=" "
+        android:textAlignment="viewStart"
+        android:textColor="#F8FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
+
+    <TextView
+        android:id="@+id/restaurantRating"
+        android:layout_width="297dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="24dp"
+        android:text=" "
+        android:textAlignment="viewStart"
+        android:textColor="#F7FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantPrice" />
+
+    <TextView
+        android:id="@+id/restaurantVicinity"
+        android:layout_width="297dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:text=" "
+        android:textAlignment="viewStart"
+        android:textColor="#FDFFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantRating" />
+
+    <TextView
+        android:id="@+id/restaurantName"
+        android:layout_width="297dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="192dp"
+        android:fontFamily="sans-serif-black"
+        android:text=" "
+        android:textAlignment="center"
+        android:textColor="#F7F2F2"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rample_imageButton" />
+
+    <ImageView
+        android:id="@+id/restaurantPhoto"
+        android:layout_width="243dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rample_imageButton"
+        app:srcCompat="@android:drawable/ic_delete" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
