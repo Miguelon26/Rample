@@ -5,7 +5,7 @@ public class Restaurant {
     private String rating;
     private String vicinity;
     private String price_level;
-    private  String photo_reference;
+    private String photo_reference;
 
     public String getName() {
         return name;

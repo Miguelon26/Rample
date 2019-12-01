@@ -1,3 +1,10 @@
+/*
+ * Jorge Luis Vasquez Osorio
+ *
+ * Proyecto para Aplicaciones de Tecnologia: Rample
+ * MainActivity.java
+ */
+
 package com.example.rample;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,7 +61,6 @@ public class RestaurantsResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurants_results);
-
 
         rample_imageButton = findViewById(R.id.rample_imageButton);
         restaurantName = findViewById(R.id.restaurantName);
@@ -134,14 +140,14 @@ public class RestaurantsResultsActivity extends AppCompatActivity {
 
     private void runRequest() {
         bundle = getIntent().getExtras();
-        final  String filtroTipoComida = bundle.getString("filtroTipoComida");
-        final  String filtroDistancia = bundle.getString("filtroDistancia");
-        final  String filtroFoodRating= bundle.getString("filtroFoodRating");
-        final  String filtroPrecio = bundle.getString("filtroPrecio");
-        Log.i("REST","Filtros: "+filtroTipoComida+" "+filtroDistancia+" "+filtroFoodRating+" "+filtroPrecio+" ");
+        final String filtroTipoComida = bundle.getString("filtroTipoComida");
+        final String filtroDistancia = bundle.getString("filtroDistancia");
+        final String filtroFoodRating = bundle.getString("filtroFoodRating");
+        final String filtroPrecio = bundle.getString("filtroPrecio");
+        Log.i("REST", "Filtros: " + filtroTipoComida + " " + filtroDistancia + " " + filtroFoodRating + " " + filtroPrecio + " ");
 
 
-        switch (filtroTipoComida){
+        switch (filtroTipoComida) {
             case "Tipo":
                 tipoComida = "";
                 break;
@@ -162,7 +168,7 @@ public class RestaurantsResultsActivity extends AppCompatActivity {
         }
 
         //Filtrar por distancia
-        switch (filtroDistancia){
+        switch (filtroDistancia) {
             case "Distancia":
                 distancia = "&radius=50000";
                 break;
@@ -189,36 +195,33 @@ public class RestaurantsResultsActivity extends AppCompatActivity {
         }
 
 
-
-
-
         LocationManager locationManager = (LocationManager) RestaurantsResultsActivity.this.getSystemService(Context.LOCATION_SERVICE);
 
 // Define a listener that responds to location updates
 
-            LocationListener locationListener = new LocationListener() {
-                public void onLocationChanged(Location location) {
-                    // Called when a new location is found by the network location provider.
-                    //textViewLocation.setText("" + location.getLatitude() + " " + location.getLongitude());
-                    String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + location.getLatitude() + "," + location.getLongitude() + distancia + tipoComida + "&type=restaurant&key=AIzaSyAGeCDbjwRQ4x0YThvKvttxBeZU3Tt6kCQ";
-                    Log.d("url", URL);
-                    request(URL);
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                //textViewLocation.setText("" + location.getLatitude() + " " + location.getLongitude());
+                String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + location.getLatitude() + "," + location.getLongitude() + distancia + tipoComida + "&type=restaurant&key=AIzaSyAGeCDbjwRQ4x0YThvKvttxBeZU3Tt6kCQ";
+                Log.i("REST", URL);
+                request(URL);
 
-                }
+            }
 
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-                }
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
 
-                public void onProviderEnabled(String provider) {
-                }
+            public void onProviderEnabled(String provider) {
+            }
 
-                public void onProviderDisabled(String provider) {
-                }
-            };
+            public void onProviderDisabled(String provider) {
+            }
+        };
 
-// Register the listener with the Location Manager to receive location updates
-            int permissionCheck = ContextCompat.checkSelfPermission(RestaurantsResultsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        // Register the listener with the Location Manager to receive location updates
+        int permissionCheck = ContextCompat.checkSelfPermission(RestaurantsResultsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
     }
 
@@ -233,10 +236,10 @@ public class RestaurantsResultsActivity extends AppCompatActivity {
                         JSONArray jsonarray = jsono.getJSONArray("results");
                         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
                         Random r = new Random();
-                        int random = r.nextInt(jsonarray.length()+1);
+                        int random = r.nextInt(jsonarray.length() + 1);
                         for (int i = 0; i < jsonarray.length(); i++) {
                             String restaurant = jsonarray.getString(random);
-                            Log.i("perro", restaurant);
+                            Log.i("REST", restaurant);
 
                             Restaurant name = gson.fromJson(restaurant, Restaurant.class);
                             restaurants.add(name);
@@ -269,7 +272,7 @@ public class RestaurantsResultsActivity extends AppCompatActivity {
 
                             Restaurant photo = gson.fromJson(restaurant, Restaurant.class);
                             restaurants.add(photo);
-                            Log.i("foto", photo.getPhoto_reference());
+                            Log.i("REST", photo.getPhoto_reference());
                             Picasso.get().load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&key=AIzaSyAGeCDbjwRQ4x0YThvKvttxBeZU3Tt6kCQ&photoreference=" + photo.getPhoto_reference()).into(restaurantPhoto);
 
                         }

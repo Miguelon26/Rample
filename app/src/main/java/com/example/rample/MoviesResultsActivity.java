@@ -141,7 +141,7 @@ public class MoviesResultsActivity extends AppCompatActivity {
         final int random = new Random().nextInt(600000);//id aleatorio
         String randomId = String.valueOf(random);
         //Log.i("REST","Random: "+randomId);
-        String movieURL = "https://api.themoviedb.org/3/movie/"+randomId+"?api_key=49e5c6a63c90a4e26771ad63fc77043c&language=en-US";
+        String movieURL = "https://api.themoviedb.org/3/movie/"+randomId+"?api_key=49e5c6a63c90a4e26771ad63fc77043c&language=es";
 
         bundle = getIntent().getExtras();//obtener filtros
         final String filtroGenero = bundle.getString("filtroGenero");

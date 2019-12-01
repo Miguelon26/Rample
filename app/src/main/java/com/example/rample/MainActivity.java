@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
         String[] categorias = new String[]{"Películas", "Series", "Restaurantes"};
         //Filtros Peliculas
-        final String[] filtroGeneros = new String[]{"Género", "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Music", "Mystery", "Romance", "Science Fiction", "TV Movie", "Thriller", "War", "Western"};
+        //final String[] filtroGeneros = new String[]{"Género", "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Music", "Mystery", "Romance", "Science Fiction", "TV Movie", "Thriller", "War", "Western"};
+        final String[] filtroGeneros = new String[]{"Género", "Acción","Aventura","Animación","Comedia","Crimen","Documental","Drama","Familia","Fantasía","Historia","Terror","Música","Misterio","Romance","Ciencia ficción","Película de TV","Suspense","Bélica","Western"};
         final String[] filtroAdultos = new String[]{"Para Adultos", "Sí", "No"};
         final String[] filtroAnio = new String[]{"Año", ">2010", "2000-2009", "1990-1999", "1980-1989", "<1980"};
         final String[] filtroRuntime = new String[]{"Duración", ">120 minutos", "90-120 minutos", "<90 minutos"};
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         final String[] filtroAnioShows = new String[]{"Año",">2010","2000-2009","1990-1999","<1990"};
         final String[] filtroEpisodios = new String[]{"Episodios","<30 minutos","30-60 minutos",">60 minutos"};
         final String[] filtroTemporadas = new String[]{"Temporadas","1-3","4-6","6-9",">10"};
-
+        //Filtros Restaurantes
         final String[] filtroTipoCOmida = new String[]{"Tipo", "China", "Italiana", "Hamburguesas", "Pizza", };
         final String[] filtroDistancia = new String[]{"Distancia", "1 km", "3 km", "5 km", "10 km", "20 km", "50 km"};
         final String[] filtroFoodRating = new String[]{"Rating", "1 estrella", "2 estrellas", "3 estrellas", "4 estrellas", "5 estrellas"};
@@ -155,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                         filtro4_spinner.setVisibility(View.VISIBLE);
 
                         filtro5_spinner.setVisibility(View.GONE);
-
                         filtro6_spinner.setVisibility(View.GONE);
                         break;
                     default:
