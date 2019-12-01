@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#51519A"
+    tools:context=".MoviesResultsActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rample_imageButton" />
+
+    <ImageButton
+        android:id="@+id/rample_imageButton"
+        android:layout_width="246dp"
+        android:layout_height="256dp"
+        android:layout_marginTop="16dp"
+        android:background="@null"
+        android:onClick="didTapButton"
+        android:scaleType="fitStart"
+        android:transitionName="buttonTransition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/shuffle_1" />
+
+    <ImageView
+        android:id="@+id/poster_imageView"
+        android:layout_width="160dp"
+        android:layout_height="280dp"
+        android:layout_marginStart="16dp"
+        android:scaleType="fitStart"
+        app:layout_constraintBottom_toTopOf="@+id/homepage_textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_textView"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <TextView
+        android:id="@+id/title_textView"
+        android:layout_width="339dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Título"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progressBar" />
+
+    <TextView
+        android:id="@+id/info_textView"
+        android:layout_width="205dp"
+        android:layout_height="272dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:scrollbars="vertical"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        app:autoSizeTextType="none"
+        app:layout_constraintBottom_toBottomOf="@+id/poster_imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toEndOf="@+id/poster_imageView"
+        app:layout_constraintTop_toTopOf="@+id/poster_imageView" />
+
+    <TextView
+        android:id="@+id/homepage_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:autoLink="all"
+        android:clickable="true"
+        android:onClick="didTapButton"
+        android:text="Trailer"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

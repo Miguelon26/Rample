@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         final String[] filtroAnio = new String[]{"Año", ">2010", "2000-2009", "1990-1999", "1980-1989", "<1980"};
         final String[] filtroRuntime = new String[]{"Duración", ">120 minutos", "90-120 minutos", "<90 minutos"};
         final String[] filtroRating = new String[]{"Rating", ">9.0", "8.0-8.9", "7.0-7.9", "6.0-6.9", "<6.0"};
+        //Filtros Series
+        final String[] filtroAnioShows = new String[]{"Año",">2010","2000-2009","1990-1999","<1990"};
+        final String[] filtroEpisodios = new String[]{"Episodios","<30 minutos","30-60 minutos",">60 minutos"};
+        final String[] filtroTemporadas = new String[]{"Temporadas","1-3","4-6","6-9",">10"};
 
         //Agregar Dropdown lists
         ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, categorias);
@@ -106,15 +110,29 @@ public class MainActivity extends AppCompatActivity {
                         filtro6_spinner.setVisibility(View.GONE);
                         break;
                     case "Series":
-                        filtro1_spinner.setVisibility(View.GONE);
-                        filtro2_spinner.setVisibility(View.GONE);
-                        filtro3_spinner.setVisibility(View.GONE);
-                        filtro4_spinner.setVisibility(View.GONE);
-                        filtro5_spinner.setVisibility(View.GONE);
+                        filtro1Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroGeneros);
+                        filtro1_spinner.setAdapter(filtro1Adapter);
+                        filtro1_spinner.setVisibility(View.VISIBLE);
+
+                        filtro2Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroAnioShows);
+                        filtro2_spinner.setAdapter(filtro2Adapter);
+                        filtro2_spinner.setVisibility(View.VISIBLE);
+
+                        filtro3Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroEpisodios);
+                        filtro3_spinner.setAdapter(filtro3Adapter);
+                        filtro3_spinner.setVisibility(View.VISIBLE);
+
+                        filtro4Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroTemporadas);
+                        filtro4_spinner.setAdapter(filtro4Adapter);
+                        filtro4_spinner.setVisibility(View.VISIBLE);
+
+                        filtro5Adapter = new ArrayAdapter<>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, filtroRating);
+                        filtro5_spinner.setAdapter(filtro5Adapter);
+                        filtro5_spinner.setVisibility(View.VISIBLE);
+
                         filtro6_spinner.setVisibility(View.GONE);
                         break;
                     case "Restaurantes":
-                        ault:
                         filtro1_spinner.setVisibility(View.GONE);
                         filtro2_spinner.setVisibility(View.GONE);
                         filtro3_spinner.setVisibility(View.GONE);
@@ -228,7 +246,21 @@ public class MainActivity extends AppCompatActivity {
                 sharedIntent.putExtra("filtroRating",filtro4);
                 sharedIntent.putExtra("filtroParaAdultos",filtro5);
                 break;
-            //Series
+            case "Series":
+                filtro1 = filtro1_spinner.getSelectedItem().toString();
+                filtro2 = filtro2_spinner.getSelectedItem().toString();
+                filtro3 = filtro3_spinner.getSelectedItem().toString();
+                filtro4 = filtro4_spinner.getSelectedItem().toString();
+                filtro5= filtro5_spinner.getSelectedItem().toString();
+                filtro6="";
+
+                sharedIntent = new Intent(MainActivity.this, ShowsResultsActivity.class);
+                sharedIntent.putExtra("filtroGenero",filtro1);
+                sharedIntent.putExtra("filtroAnioShow",filtro2);
+                sharedIntent.putExtra("filtroEpisodio",filtro3);
+                sharedIntent.putExtra("filtroTemporada",filtro4);
+                sharedIntent.putExtra("filtroRating",filtro5);
+                break;
             case "Restaurantes":
                 sharedIntent = new Intent(MainActivity.this, RestaurantsResultsActivity.class);
                 break;

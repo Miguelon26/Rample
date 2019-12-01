@@ -11,7 +11,8 @@
         android:roundIcon="@drawable/shuffle_1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RestaurantsResultsActivity"></activity>
+        <activity android:name=".ShowsResultsActivity"></activity>
+        <activity android:name=".RestaurantsResultsActivity" />
         <activity android:name=".MoviesResultsActivity" />
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
