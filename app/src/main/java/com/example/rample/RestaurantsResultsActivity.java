@@ -69,7 +69,7 @@ public class RestaurantsResultsActivity extends AppCompatActivity {
         restaurantVicinity = findViewById(R.id.restaurantVicinity);
         restaurantPhoto = findViewById(R.id.restaurantPhoto);
 
-        runRequest();
+
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -95,6 +95,7 @@ public class RestaurantsResultsActivity extends AppCompatActivity {
         } else {
             // Permission has already been granted
         }
+        runRequest();
 
     }//onCreate
 
